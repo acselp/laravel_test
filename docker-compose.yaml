@@ -1,0 +1,25 @@
+version: '3'
+
+services:
+  apache-server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - .:/var/www/html
+
+  db:
+    image: mysql
+    restart: always
+    volumes: 
+      - .:/docker-entrypoint-initdb.d 
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+  
+  phpmyadmin:
+    image: phpmyadmin
+    restart: always
+    ports:
+      - 8080:80
+    environment:
+      - PMA_ARBITRARY=1
